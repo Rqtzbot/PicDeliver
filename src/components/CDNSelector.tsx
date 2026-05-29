@@ -103,7 +103,7 @@ export default function CDNSelector({
               title={node.description}
               className={`relative rounded-xl border p-2.5 transition-all duration-200 select-none cursor-pointer flex flex-col justify-between h-[72px]
                 ${isSelected
-                  ? 'border-slate-800 bg-slate-50 ring-[1px] ring-slate-800 shadow-[0_2px_8px_-3px_rgba(15,23,42,0.08)]'
+                  ? 'border-slate-400 bg-slate-50/50 shadow-xs'
                   : 'border-slate-200/80 bg-white hover:border-slate-300 hover:shadow-xs hover:bg-slate-50/30'
                 }`}
               onClick={() => onSelect(node.id)}

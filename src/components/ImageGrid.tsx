@@ -248,7 +248,7 @@ export default function ImageGrid({ images, selectedCdn, selectedCdnName, lang }
             return (
               <div 
                 key={img.sha} 
-                className="bg-white rounded-2xl border border-slate-150 p-4 shadow-xs hover:shadow-sm hover:border-slate-350 transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-4"
+                className="bg-white rounded-2xl p-4 shadow-xs hover:shadow-md hover:-translate-y-0.5 hover:scale-[1.005] transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-4"
               >
                 {/* Left side: Thumbnail + File details */}
                 <div className="flex items-center gap-3.5 min-w-0 flex-1">
@@ -396,7 +396,7 @@ export default function ImageGrid({ images, selectedCdn, selectedCdnName, lang }
             return (
               <div 
                 key={img.sha} 
-                className="bg-white rounded-2xl border border-slate-150 p-4 shadow-xs hover:shadow-sm hover:border-slate-350 transition-all duration-300 flex flex-col justify-between gap-3"
+                className="bg-white rounded-2xl p-4 shadow-xs hover:shadow-md hover:-translate-y-0.5 hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between gap-3"
               >
                 {/* Thumbnail and title row */}
                 <div className="flex items-center gap-3">
