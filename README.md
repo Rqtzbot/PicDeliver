@@ -1,4 +1,4 @@
-<img width="1430" height="883" alt="image" src="https://github.com/user-attachments/assets/aefedc82-c2e9-4b58-becb-3adf25ad0ec5" />
+<img width="1358" height="854" alt="image" src="https://github.com/user-attachments/assets/d263ccf4-dfbc-45d4-9ed6-ce1b6f31f6c7" />
 
 PicDeliver是一个可以将GitHub公共仓库中的图片资源转换为CDN加速链接，依靠JsDelivr强大的CDN，但主域名由于大陆访问受限，因此提供了目前大陆可用的转换地址
 
