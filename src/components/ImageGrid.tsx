@@ -115,7 +115,7 @@ export default function ImageGrid({ images, selectedCdn, selectedCdnName, lang }
   return (
     <div className="space-y-6 animate-fade-in" id="image-grid-section">
       {/* Search and control filter action panel */}
-      <div className="bg-white rounded-3xl border border-slate-150 p-6 space-y-4 shadow-sm shadow-slate-100/50">
+      <div className="bg-white rounded-3xl p-6 space-y-4 shadow-md shadow-slate-200/40 hover:shadow-lg transition-all duration-300">
         <div className="flex flex-col gap-3.5">
           <div>
             <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
@@ -207,7 +207,7 @@ export default function ImageGrid({ images, selectedCdn, selectedCdnName, lang }
           </div>
 
           {/* Sorting Buttons */}
-          <div className="flex items-center rounded-xl border border-slate-150 bg-slate-100/60 p-1 shrink-0 md:ml-auto w-fit select-none" id="sort-controls-panel">
+          <div className="flex items-center rounded-xl border border-white bg-slate-100/60 p-1 shrink-0 md:ml-auto w-fit select-none" id="sort-controls-panel">
             <b className="text-[10px] text-slate-400 px-2 font-bold uppercase tracking-wider">{t.sortByLabel}</b>
             <button
               onClick={() => handleSort('name')}
@@ -231,7 +231,7 @@ export default function ImageGrid({ images, selectedCdn, selectedCdnName, lang }
 
       {/* Main card list visualization */}
       {filteredAndSortedImages.length === 0 ? (
-        <div className="bg-white rounded-3xl border border-slate-150 p-12 text-center shadow-xs">
+        <div className="bg-white rounded-3xl p-12 text-center shadow-md shadow-slate-200/40">
           <i className="fa-solid fa-triangle-exclamation text-amber-500 text-3xl mb-3"></i>
           <h4 className="text-sm font-bold text-slate-800">{t.noResultsTitle}</h4>
           <p className="text-xs text-slate-400 max-w-sm mx-auto mt-1 leading-relaxed">
@@ -495,7 +495,7 @@ export default function ImageGrid({ images, selectedCdn, selectedCdnName, lang }
 
       {/* Pagination control with FontAwesome */}
       {totalPages > 1 && (
-        <div className="bg-white rounded-2xl border border-slate-200 p-4.5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+        <div className="bg-white rounded-2xl p-4.5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md shadow-slate-200/40 hover:shadow-lg transition-all duration-300">
           <div className="text-xs text-slate-500">
             {t.pageShowing} <span className="font-extrabold text-slate-700 font-mono">{((currentPage - 1) * itemsPerPage) + 1}</span> {t.pageTo}{' '}
             <span className="font-extrabold text-slate-700 font-mono">

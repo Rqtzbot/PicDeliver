@@ -67,7 +67,7 @@ export default function GitHubConfigCard({
   };
 
   return (
-    <div className="bg-white rounded-3xl border border-slate-100 shadow-sm shadow-slate-100/50 p-6 transition-all duration-300">
+    <div className="bg-white rounded-3xl p-6 shadow-md shadow-slate-200/40 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* GitHub Folder Address input */}
         <div>

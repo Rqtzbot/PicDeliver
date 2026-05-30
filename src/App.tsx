@@ -383,7 +383,7 @@ export default function App() {
             />
 
             {/* Accent CDN Core Selector - placed centrally inside work flow */}
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm shadow-slate-100/50 p-6" id="cdn-selector-wrapper">
+            <div className="bg-white rounded-3xl p-6 shadow-md shadow-slate-200/40 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300" id="cdn-selector-wrapper">
               <CDNSelector 
                 selectedNode={selectedCdn} 
                 onSelect={setSelectedCdn} 
@@ -395,7 +395,7 @@ export default function App() {
             </div>
 
             {/* Localized Project Stats - Super compact icon-powered horizontal bar */}
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm shadow-slate-100/50 p-5 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500" id="project-stats-card">
+            <div className="bg-white rounded-3xl p-5 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500 shadow-md shadow-slate-200/40 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300" id="project-stats-card">
               <div className="flex items-center gap-1.5 font-bold text-black" title={t.statsFiles}>
                 <ImageIcon className="h-5 w-5 text-black" />
                 <span>{images.length} <span className="text-slate-450 font-normal">{lang === 'zh' ? '张图片' : 'Assets'}</span></span>
@@ -422,7 +422,7 @@ export default function App() {
 
             {/* API rate limit indicator card */}
             {apiStatus.rateLimitRemaining !== null && (
-              <div className="bg-white rounded-2xl border border-slate-100 p-4 flex items-center justify-between shadow-2xs animate-fade-in" id="api-rate-limit-card">
+              <div className="bg-white rounded-2xl p-4 flex items-center justify-between shadow-md shadow-slate-200/30 hover:shadow-lg transition-all duration-300 animate-fade-in" id="api-rate-limit-card">
                 <div className="flex items-center gap-2 text-[11px]">
                   <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="text-slate-400 font-bold tracking-tight">{t.quotaLabel}</span>
@@ -518,7 +518,7 @@ export default function App() {
               />
             ) : !apiStatus.loading && !apiStatus.error && (
               /* Empty state placeholder card */
-              <div className="bg-white rounded-[1.75rem] border border-slate-100 shadow-xs p-10 text-center" id="empty-state-container">
+              <div className="bg-white rounded-[1.75rem] shadow-md shadow-slate-200/40 hover:shadow-lg transition-all duration-300 p-10 text-center" id="empty-state-container">
                 <div className="h-12 w-12 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center mx-auto mb-4 border border-slate-100">
                   <ImageIcon className="h-6 w-6 text-slate-500" />
                 </div>
