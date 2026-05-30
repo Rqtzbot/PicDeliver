@@ -27,7 +27,7 @@ export default function App() {
   const t = translations[lang];
 
   const [images, setImages] = useState<ImageItem[]>([]);
-  const [selectedCdn, setSelectedCdn] = useState<CDNType>('gcore');
+  const [selectedCdn, setSelectedCdn] = useState<CDNType>('jsdmirror1');
   
   const [dynamicCdns, setDynamicCdns] = useState<CDNNode[]>(() => {
     const stored = localStorage.getItem('gh_custom_cdns');
@@ -96,7 +96,7 @@ export default function App() {
     localStorage.setItem('gh_custom_cdns', JSON.stringify(updatedNodes.filter(n => n.id.startsWith('custom-'))));
     
     if (selectedCdn === id) {
-      setSelectedCdn('gcore');
+      setSelectedCdn('jsdmirror1');
     }
   };
 

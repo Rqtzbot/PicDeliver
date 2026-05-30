@@ -71,7 +71,7 @@ export default function CDNSelector({
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
           <h3 className="text-[15px] font-bold text-slate-800 dark:text-slate-200 tracking-tight">
-            {lang === 'zh' ? 'CDN 加加速节点' : 'CDN Delivery Nodes'}
+            {lang === 'zh' ? 'CDN 加速节点' : 'CDN Delivery Nodes'}
           </h3>
           <span className="inline-flex items-center rounded-md bg-slate-55 dark:bg-slate-800 px-2 py-0.5 text-[11px] font-extrabold text-slate-700 dark:text-slate-300 ring-1 ring-inset ring-slate-200/50 dark:ring-slate-700">
             {dynamicCdns.length}

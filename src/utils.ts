@@ -7,6 +7,14 @@ import { GitHubRepoInfo, ImageItem, CDNType, CDNNode } from './types';
 
 export const CDN_NODES: CDNNode[] = [
   {
+    id: 'jsdmirror1',
+    name: 'JsdMirror1',
+    description: '由 JsdMirror 提供的公益加速镜像，大陆节点极速访问',
+    prefix: 'https://cdn.jsdmirror.com/gh',
+    speedTag: '大陆可用',
+    latencyIndicator: 'fast',
+  },
+  {
     id: 'gcore',
     name: 'Gcore 专属',
     description: '由 Gcore 全球网络加速，亚太极佳',
@@ -15,12 +23,20 @@ export const CDN_NODES: CDNNode[] = [
     latencyIndicator: 'fast',
   },
   {
-    id: 'fastly',
-    name: 'Fastly 加速',
-    description: '通过 Fastly 全球边缘节点进行高可用分发',
-    prefix: 'https://fastly.jsdelivr.net/gh',
-    speedTag: '全球加速',
-    latencyIndicator: 'premium',
+    id: 'cloudflare',
+    name: 'Cloudflare 专属',
+    description: '基于 Cloudflare 企业极速骨干网络优化镜像',
+    prefix: 'https://testingcf.jsdelivr.net/gh',
+    speedTag: '多线优化',
+    latencyIndicator: 'fast',
+  },
+  {
+    id: 'jsdmirror2',
+    name: 'JsdMirror2',
+    description: 'JsdMirror 国内专属优化镜像，传输稳定高效',
+    prefix: 'https://cdn.jsdmirror.cn/gh',
+    speedTag: '国内友好',
+    latencyIndicator: 'fast',
   },
   {
     id: 'jsdelivr',
@@ -31,12 +47,12 @@ export const CDN_NODES: CDNNode[] = [
     latencyIndicator: 'medium',
   },
   {
-    id: 'cloudflare',
-    name: 'Cloudflare 专属',
-    description: '基于 Cloudflare 企业极速骨干网络优化镜像',
-    prefix: 'https://testingcf.jsdelivr.net/gh',
-    speedTag: '多线优化',
-    latencyIndicator: 'fast',
+    id: 'fastly',
+    name: 'Fastly 加速',
+    description: '通过 Fastly 全球边缘节点进行高可用分发',
+    prefix: 'https://fastly.jsdelivr.net/gh',
+    speedTag: '全球加速',
+    latencyIndicator: 'premium',
   }
 ];
 
