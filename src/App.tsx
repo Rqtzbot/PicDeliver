@@ -14,6 +14,11 @@ import { AlertCircle, ShieldAlert, Image as ImageIcon, Key, HelpCircle, Info, Gl
 import { translations, Language } from './translations';
 
 export default function App() {
+  // Ensure default clean, high-contrast light theme is loaded
+  useEffect(() => {
+    document.documentElement.classList.remove('dark');
+  }, []);
+
   // Localization choice state
   const [lang, setLang] = useState<Language>(() => {
     return (localStorage.getItem('gh_cdn_lang') as Language) || 'zh';
@@ -52,6 +57,7 @@ export default function App() {
   });
 
   const [activeRepo, setActiveRepo] = useState<GitHubRepoInfo | null>(null);
+  const [recursive, setRecursive] = useState(false);
 
   const handleAddCustomCdn = (name: string, prefix: string) => {
     const cleanPrefix = prefix.trim().replace(/\/+$/, '');
@@ -91,6 +97,35 @@ export default function App() {
     
     if (selectedCdn === id) {
       setSelectedCdn('gcore');
+    }
+  };
+
+  const handleEditCustomCdn = (id: string, name: string, prefix: string) => {
+    const cleanPrefix = prefix.trim().replace(/\/+$/, '');
+    const updatedNodes = dynamicCdns.map(node => {
+      if (node.id === id) {
+        return {
+          ...node,
+          name,
+          description: lang === 'zh' ? `自定义 CDN 线路：${cleanPrefix}` : `Custom CDN Node: ${cleanPrefix}`,
+          prefix: cleanPrefix,
+        };
+      }
+      return node;
+    });
+    setDynamicCdns(updatedNodes);
+    localStorage.setItem('gh_custom_cdns', JSON.stringify(updatedNodes.filter(n => n.id.startsWith('custom-'))));
+
+    // Update active images cdn urls instantly
+    if (images.length > 0 && activeRepo) {
+      setImages(prevImages => prevImages.map(img => {
+        const cdnUrls = { ...img.cdnUrls };
+        cdnUrls[id] = buildCdnUrl(cleanPrefix, activeRepo.owner, activeRepo.repo, activeRepo.branch, img.path);
+        return {
+          ...img,
+          cdnUrls
+        };
+      }));
     }
   };
 
@@ -362,7 +397,7 @@ export default function App() {
     : '0 MB';
 
   return (
-    <div className="min-h-screen bg-[#FAFAFE] flex flex-col text-slate-800 antialiased font-sans">
+    <div className="min-h-screen bg-[#EEF0F3] dark:bg-[#090D16] flex flex-col text-slate-800 dark:text-slate-100 antialiased font-sans transition-colors duration-300">
       <Header lang={lang} onLanguageChange={handleLanguageChange} />
 
       <main className="flex-1 mx-auto max-w-7xl w-full px-4 sm:px-6 lg:px-8 py-8">
@@ -380,10 +415,12 @@ export default function App() {
               token={token}
               onTokenChange={handleTokenChange}
               lang={lang}
+              recursive={recursive}
+              onRecursiveChange={setRecursive}
             />
 
             {/* Accent CDN Core Selector - placed centrally inside work flow */}
-            <div className="bg-white rounded-3xl p-6 shadow-md shadow-slate-200/40 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300" id="cdn-selector-wrapper">
+            <div className="bg-white dark:bg-[#151E33] border border-slate-100 dark:border-slate-800/85 rounded-3xl p-6 shadow-md shadow-slate-200/40 dark:shadow-none hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300" id="cdn-selector-wrapper">
               <CDNSelector 
                 selectedNode={selectedCdn} 
                 onSelect={setSelectedCdn} 
@@ -391,20 +428,21 @@ export default function App() {
                 dynamicCdns={dynamicCdns}
                 onAddCustomCdn={handleAddCustomCdn}
                 onRemoveCustomCdn={handleRemoveCustomCdn}
+                onEditCustomCdn={handleEditCustomCdn}
               />
             </div>
 
             {/* Localized Project Stats - Super compact icon-powered horizontal bar */}
-            <div className="bg-white rounded-3xl p-5 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500 shadow-md shadow-slate-200/40 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300" id="project-stats-card">
-              <div className="flex items-center gap-1.5 font-bold text-black" title={t.statsFiles}>
-                <ImageIcon className="h-5 w-5 text-black" />
-                <span>{images.length} <span className="text-slate-450 font-normal">{lang === 'zh' ? '张图片' : 'Assets'}</span></span>
+            <div className="bg-white dark:bg-[#151E33] border border-slate-100 dark:border-slate-800/85 rounded-3xl p-5 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500 shadow-md shadow-slate-200/40 dark:shadow-none hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300" id="project-stats-card">
+              <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-slate-100" title={t.statsFiles}>
+                <ImageIcon className="h-5 w-5 text-slate-900 dark:text-slate-350" />
+                <span>{images.length} <span className="text-slate-450 dark:text-slate-400 font-normal">{lang === 'zh' ? '张图片' : 'Assets'}</span></span>
               </div>
-              <div className="flex items-center gap-1.5 font-bold text-black" title={t.statsSize}>
-                <FolderDown className="h-5 w-5 text-black" />
+              <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-slate-100" title={t.statsSize}>
+                <FolderDown className="h-5 w-5 text-slate-900 dark:text-slate-350" />
                 <span>{formattedTotalSize}</span>
               </div>
-              <div className={`flex items-center gap-1.5 font-bold ${images.length > 0 ? 'text-emerald-700' : 'text-slate-505'}`}>
+              <div className={`flex items-center gap-1.5 font-bold ${images.length > 0 ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-500'}`}>
                 <span className="relative flex h-2 w-2">
                   <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${images.length > 0 ? 'bg-emerald-400' : 'bg-slate-300'}`}></span>
                   <span className={`relative inline-flex rounded-full h-2 w-2 ${images.length > 0 ? 'bg-emerald-500' : 'bg-slate-500'}`}></span>
@@ -422,20 +460,22 @@ export default function App() {
 
             {/* API rate limit indicator card */}
             {apiStatus.rateLimitRemaining !== null && (
-              <div className="bg-white rounded-2xl p-4 flex items-center justify-between shadow-md shadow-slate-200/30 hover:shadow-lg transition-all duration-300 animate-fade-in" id="api-rate-limit-card">
-                <div className="flex items-center gap-2 text-[11px]">
-                  <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-slate-400 font-bold tracking-tight">{t.quotaLabel}</span>
-                  <span className="font-extrabold text-slate-700 font-mono text-[11px] bg-slate-100 px-2 py-0.5 rounded">
+              <div className="bg-white dark:bg-[#151E33] border border-slate-100 dark:border-slate-800/85 rounded-2xl p-4 flex flex-col gap-2 shadow-md shadow-slate-200/30 dark:shadow-none hover:shadow-lg transition-all duration-350 animate-fade-in" id="api-rate-limit-card">
+                <div className="flex items-center justify-between gap-4 w-full">
+                  <div className="flex items-center gap-2 text-[11px]">
+                    <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span style={{ fontFamily: 'Inter' }} className="text-slate-400 dark:text-slate-555 font-normal tracking-tight">{t.quotaLabel}</span>
+                  </div>
+                  <span className="font-extrabold text-slate-705 dark:text-slate-350 font-mono text-[11px] bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded shrink-0">
                     {apiStatus.rateLimitRemaining} / {apiStatus.rateLimitLimit}
                   </span>
                 </div>
                 
                 {apiStatus.rateLimitRemaining < 15 && (
-                  <span className="text-[10px] bg-amber-50 text-amber-700 px-2 rounded-md font-bold flex items-center gap-1 border border-amber-100/50">
-                    <ShieldAlert className="h-3 w-3" />
-                    {t.quotaWarning}
-                  </span>
+                  <div className="text-[10px] bg-amber-50 dark:bg-amber-955/20 text-amber-705 dark:text-amber-400 p-2.5 rounded-lg font-bold flex items-start gap-1.5 border border-amber-100/50 dark:border-amber-900/30 w-full leading-normal">
+                    <ShieldAlert className="h-3.5 w-3.5 text-amber-500 shrink-0 mt-0.5" />
+                    <span className="break-all">{t.quotaWarning}</span>
+                  </div>
                 )}
               </div>
             )}
@@ -483,7 +523,7 @@ export default function App() {
                     />
                     <button
                       type="button"
-                      onClick={() => activeRepo && executeFetch(activeRepo, false, token)}
+                      onClick={() => activeRepo && executeFetch(activeRepo, recursive, token)}
                       disabled={apiStatus.loading || !token.trim()}
                       className="rounded-xl px-5 py-2.5 text-xs font-bold bg-slate-900 text-white hover:bg-slate-800 disabled:bg-slate-200 disabled:text-slate-400 transition-all cursor-pointer shadow-md shadow-slate-100"
                     >
@@ -515,25 +555,26 @@ export default function App() {
                 selectedCdn={selectedCdn}
                 selectedCdnName={selectedCdnName}
                 lang={lang}
+                onClear={handleClearResults}
               />
             ) : !apiStatus.loading && !apiStatus.error && (
               /* Empty state placeholder card */
-              <div className="bg-white rounded-[1.75rem] shadow-md shadow-slate-200/40 hover:shadow-lg transition-all duration-300 p-10 text-center" id="empty-state-container">
-                <div className="h-12 w-12 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center mx-auto mb-4 border border-slate-100">
-                  <ImageIcon className="h-6 w-6 text-slate-500" />
+              <div className="bg-white dark:bg-[#151E33] border border-slate-100 dark:border-slate-800/85 rounded-[1.75rem] shadow-md shadow-slate-200/40 dark:shadow-none hover:shadow-lg transition-all duration-300 p-10 text-center" id="empty-state-container">
+                <div className="h-12 w-12 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-400 dark:text-slate-350 flex items-center justify-center mx-auto mb-4 border border-slate-100 dark:border-slate-750">
+                  <ImageIcon className="h-6 w-6 text-slate-500 dark:text-slate-400" />
                 </div>
-                <h3 className="text-sm font-bold text-slate-800">{lang === 'zh' ? '等待提取转换' : 'Ready for CDN conversion'}</h3>
+                <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">{lang === 'zh' ? '等待提取转换' : 'Ready for CDN conversion'}</h3>
                 
-                <p className="text-xs text-slate-400 mt-1.5 max-w-sm mx-auto leading-relaxed">
+                <p className="text-xs text-slate-400 dark:text-slate-500 mt-1.5 max-w-sm mx-auto leading-relaxed">
                   {lang === 'zh' 
                     ? '请输入 GitHub 仓库文件夹路径开启极致多节点 CDN 路由，智能加速与缓存。' 
                     : 'Specify a GitHub relative image folder link above to trigger high-availability CDN acceleration.'}
                 </p>
 
-                <div className="mt-6 border-t border-slate-100/80 pt-5">
+                <div className="mt-6 border-t border-slate-100/80 dark:border-slate-800 pt-5">
                   <div className="flex flex-wrap justify-center gap-1.5 max-w-sm mx-auto">
                     {['PNG', 'JPG', 'WEBP', 'GIF', 'SVG', 'ICO'].map((ext) => (
-                      <span key={ext} className="bg-slate-50 hover:bg-slate-100 border border-slate-100/50 text-slate-400 px-2 py-0.5 rounded-md text-[9.5px] font-mono tracking-wide transition-colors">
+                      <span key={ext} className="bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-100/50 dark:border-slate-800 text-slate-400 dark:text-slate-400 px-2 py-0.5 rounded-md text-[9.5px] font-mono tracking-wide transition-colors">
                         .{ext.toLowerCase()}
                       </span>
                     ))}
@@ -548,9 +589,9 @@ export default function App() {
       </main>
 
       {/* Footer layout */}
-      <footer className="border-t border-slate-100 bg-white py-6 mt-12 text-center text-xs text-slate-400 font-sans">
+      <footer className="border-t border-slate-100 dark:border-slate-800/80 bg-white dark:bg-[#090D16] py-6 mt-12 text-center text-xs text-slate-450 dark:text-slate-500 font-sans transition-colors duration-300">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-1.5 leading-normal">
-          <p>© 2026 GitHub CDN Converter Core System. Powered by jsDelivr global edge routes.</p>
+          <p>{t.footerText}</p>
         </div>
       </footer>
     </div>

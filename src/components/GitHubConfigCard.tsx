@@ -17,6 +17,8 @@ interface GitHubConfigCardProps {
   token: string;
   onTokenChange: (newToken: string) => void;
   lang: Language;
+  recursive: boolean;
+  onRecursiveChange: (val: boolean) => void;
 }
 
 export default function GitHubConfigCard({ 
@@ -26,7 +28,9 @@ export default function GitHubConfigCard({
   hasResults, 
   token, 
   onTokenChange,
-  lang 
+  lang,
+  recursive,
+  onRecursiveChange
 }: GitHubConfigCardProps) {
   const t = translations[lang];
   const [urlInput, setUrlInput] = useState('');
@@ -63,15 +67,15 @@ export default function GitHubConfigCard({
       setValidationError(t.validationError);
       return;
     }
-    onFetch(parsedInfo, false, token);
+    onFetch(parsedInfo, recursive, token);
   };
 
   return (
-    <div className="bg-white rounded-3xl p-6 shadow-md shadow-slate-200/40 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+    <div className="bg-white dark:bg-[#151E33] border border-slate-100 dark:border-slate-800 rounded-3xl p-6 shadow-md shadow-slate-200/40 dark:shadow-none hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* GitHub Folder Address input */}
         <div>
-          <label htmlFor="github-url-input" className="block text-[15px] font-bold text-slate-705 mb-2 flex items-center gap-2">
+          <label htmlFor="github-url-input" className="block text-[15px] font-bold text-slate-705 dark:text-slate-250 mb-2 flex items-center gap-2">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -80,7 +84,7 @@ export default function GitHubConfigCard({
           </label>
           <div className="relative rounded-xl shadow-xs">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
-              <Search className="h-4.5 w-4.5 text-slate-400" />
+              <Search className="h-4.5 w-4.5 text-slate-400 dark:text-slate-500" />
             </div>
             <input
               type="text"
@@ -88,12 +92,12 @@ export default function GitHubConfigCard({
               value={urlInput}
               onChange={(e) => setUrlInput(e.target.value)}
               placeholder=""
-              className={`block w-full rounded-xl border py-3.5 pl-11 pr-4 text-xs transition-all focus:outline-hidden font-sans placeholder-slate-400
+              className={`block w-full rounded-xl border py-3.5 pl-11 pr-4 text-xs transition-all focus:outline-hidden font-sans placeholder-slate-400 dark:placeholder-slate-500 text-slate-800 dark:text-slate-100
                 ${validationError 
-                  ? 'border-rose-200 bg-rose-50/10 focus:border-rose-400 focus:ring-4 focus:ring-rose-50' 
+                  ? 'border-rose-200 bg-rose-50/10 focus:border-rose-400 focus:ring-4 focus:ring-rose-50 dark:border-rose-950/50' 
                   : parsedInfo 
-                    ? 'border-emerald-200 bg-emerald-50/5 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-50'
-                    : 'border-slate-200 bg-slate-50/30 focus:border-slate-400 focus:ring-4 focus:ring-slate-100/60'
+                    ? 'border-emerald-200 bg-emerald-50/5 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-50 dark:border-emerald-900/50 dark:bg-emerald-950/20'
+                    : 'border-slate-200 dark:border-slate-800 bg-slate-50/30 dark:bg-[#090D16] focus:border-slate-400 dark:focus:border-slate-500 focus:ring-4 focus:ring-slate-100/60 dark:focus:ring-slate-800/30'
                 }`}
             />
           </div>
@@ -107,23 +111,23 @@ export default function GitHubConfigCard({
           )}
 
           {parsedInfo && (
-            <div className="mt-2.5 bg-slate-50 rounded-xl p-3.5 text-[11px] text-slate-600 border border-slate-200/60 flex flex-wrap gap-x-4 gap-y-1.5 animate-fade-in" id="github-url-parsed-info">
-              <span className="font-bold text-slate-700 flex items-center gap-1">
+            <div className="mt-2.5 bg-slate-50 dark:bg-[#090D16]/90 rounded-xl p-3.5 text-[11px] text-slate-600 dark:text-slate-300 border border-slate-200/60 dark:border-slate-800 flex flex-wrap gap-x-4 gap-y-1.5 animate-fade-in" id="github-url-parsed-info">
+              <span className="font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1">
                 <Check className="h-3.5 w-3.5 text-emerald-500 stroke-[3]" />
                 {t.parsingSuccess}：
               </span>
               <span>
-                <b className="text-slate-500 font-normal">{t.owner}:</b> <code className="font-mono bg-white border border-slate-100 text-slate-705 px-1 rounded">{parsedInfo.owner}</code>
+                <b className="text-slate-500 dark:text-slate-400 font-normal">{t.owner}:</b> <code className="font-mono bg-white dark:bg-[#151E33] border border-slate-100 dark:border-slate-800 text-slate-705 dark:text-slate-200 px-1 py-0.5 rounded">{parsedInfo.owner}</code>
               </span>
               <span>
-                <b className="text-slate-500 font-normal">{t.repo}:</b> <code className="font-mono bg-white border border-slate-100 text-slate-705 px-1 rounded">{parsedInfo.repo}</code>
+                <b className="text-slate-500 dark:text-slate-400 font-normal">{t.repo}:</b> <code className="font-mono bg-white dark:bg-[#151E33] border border-slate-100 dark:border-slate-800 text-slate-705 dark:text-slate-200 px-1 py-0.5 rounded">{parsedInfo.repo}</code>
               </span>
               <span>
-                <b className="text-slate-500 font-normal">{t.branch}:</b> <code className="font-mono bg-white border border-slate-100 text-slate-705 px-1 rounded">{parsedInfo.branch || 'main'}</code>
+                <b className="text-slate-500 dark:text-slate-400 font-normal">{t.branch}:</b> <code className="font-mono bg-white dark:bg-[#151E33] border border-slate-100 dark:border-slate-800 text-slate-705 dark:text-slate-200 px-1 py-0.5 rounded">{parsedInfo.branch || 'main'}</code>
               </span>
               {parsedInfo.path && (
                 <span>
-                  <b className="text-slate-500 font-normal">{t.subpath}:</b> <code className="font-mono bg-slate-100 text-slate-705 px-1 rounded">{parsedInfo.path}</code>
+                  <b className="text-slate-500 dark:text-slate-400 font-normal">{t.subpath}:</b> <code className="font-mono bg-slate-105 dark:bg-[#151E33] border border-slate-100 dark:border-slate-800 text-slate-702 dark:text-slate-200 px-1 py-0.5 rounded">{parsedInfo.path}</code>
                 </span>
               )}
             </div>
@@ -136,18 +140,18 @@ export default function GitHubConfigCard({
             type="button"
             id="advanced-options-trigger"
             onClick={() => setShowAdvance(!showAdvance)}
-            className="text-xs text-slate-500 hover:text-slate-800 font-bold flex items-center gap-1.5 focus:outline-hidden cursor-pointer"
+            className="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white font-bold flex items-center gap-1.5 focus:outline-hidden cursor-pointer"
           >
             <FolderDown className={`h-3.5 w-3.5 text-slate-400 transition-transform ${showAdvance ? 'rotate-180' : ''}`} />
             <span>{showAdvance ? t.hideAdvanced : t.seeAdvanced}</span>
           </button>
 
           {showAdvance && (
-            <div className="mt-3 border border-slate-100 rounded-2xl p-4 bg-slate-50/50 space-y-3.5 animate-fade-in" id="advanced-options-panel">
+            <div className="mt-3 border border-slate-100 dark:border-slate-800 rounded-2xl p-4 bg-slate-50/50 dark:bg-[#090D16] space-y-3.5 animate-fade-in" id="advanced-options-panel">
               {/* GitHub Token */}
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label htmlFor="github-token-input" className="text-xs font-bold text-slate-700 flex items-center gap-1">
+                  <label htmlFor="github-token-input" className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1">
                     <Key className="h-3.5 w-3.5 text-amber-500" />
                     {t.tokenLabel}
                   </label>
@@ -155,7 +159,7 @@ export default function GitHubConfigCard({
                     href="https://github.com/settings/tokens"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[10px] text-slate-700 hover:text-slate-900 font-semibold"
+                    className="text-[10px] text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-semibold"
                   >
                     <HelpCircle className="h-3.5 w-3.5 text-slate-400 hover:text-slate-600" />
                   </a>
@@ -166,44 +170,85 @@ export default function GitHubConfigCard({
                   value={token}
                   onChange={handleTokenChange}
                   placeholder={t.tokenPlaceholder}
-                  className="block w-full rounded-lg border border-slate-200 py-1.5 px-3 text-xs font-mono transition-all focus:outline-hidden focus:border-slate-400 focus:ring-2 focus:ring-slate-100"
+                  className="block w-full rounded-lg border border-slate-200 dark:border-slate-800 py-1.5 px-3 text-xs font-mono transition-all focus:outline-hidden focus:border-slate-400 dark:focus:border-slate-500 focus:ring-2 focus:ring-slate-100 dark:focus:ring-slate-800 bg-white dark:bg-[#090D16] text-slate-800 dark:text-slate-100"
                 />
-                <p className="mt-1.5 text-[10px] text-slate-400 leading-normal flex items-center gap-1">
-                  <Info className="h-3.5 w-3.5 text-slate-400 flex-none" />
+                <p className="mt-1.5 text-[10px] text-slate-400 dark:text-slate-500 leading-normal flex items-center gap-1">
+                  <Info className="h-3.5 w-3.5 text-slate-450 dark:text-slate-500 flex-none" />
                   <span>
                     {lang === 'zh' ? '额度提升为 5000 次/小时，安全保存在本地' : 'Boosts rate limit to 5000/hr. Kept in LocalStorage.'}
                   </span>
                 </p>
               </div>
+
+              {/* Recursive Scan Toggle */}
+              <div className="pt-3.5 border-t border-slate-200/40 dark:border-slate-800/60 flex items-center justify-between gap-4" id="recursive-scan-container">
+                <div className="flex flex-col gap-0.5 max-w-[80%]">
+                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 select-none">
+                    <FolderDown className="h-3.5 w-3.5 text-emerald-500" />
+                    {t.recursiveToggle}
+                  </span>
+                  <span className="text-[10px] text-slate-400 dark:text-slate-500 leading-normal">
+                    {t.recursiveDesc}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  id="recursive-scan-toggle"
+                  onClick={() => onRecursiveChange(!recursive)}
+                  className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden
+                    ${recursive ? 'bg-emerald-500 dark:bg-emerald-400' : 'bg-slate-200 dark:bg-slate-805'}`}
+                  role="switch"
+                  aria-checked={recursive}
+                >
+                  <span
+                    aria-hidden="true"
+                    className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white dark:bg-slate-950 shadow-xs ring-0 transition duration-200 ease-in-out
+                      ${recursive ? 'translate-x-4' : 'translate-x-0'}`}
+                  />
+                </button>
+              </div>
             </div>
           )}
         </div>
 
-        {/* Action Button */}
-        <button
-          type="submit"
-          id="btn-fetch-generate"
-          disabled={loading || !parsedInfo}
-          className={`w-full flex items-center justify-center gap-2 rounded-xl py-3 px-4 text-xs font-bold tracking-wider text-white transition-all focus:outline-hidden cursor-pointer
-            ${loading 
-              ? 'bg-slate-400 cursor-not-allowed' 
-              : parsedInfo
-                ? 'bg-slate-900 hover:bg-slate-800 active:scale-[0.98] shadow-md shadow-slate-100'
-                : 'bg-slate-300 cursor-not-allowed'
-            }`}
-        >
-          {loading ? (
-            <>
-              <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              <span>{t.btnLoading}</span>
-            </>
-          ) : (
-            <span>{t.btnStart}</span>
+        {/* Action Button Row */}
+        <div className="flex gap-2.5">
+          {hasResults && (
+            <button
+              type="button"
+              onClick={onClear}
+              className="px-4 rounded-xl text-xs font-bold bg-rose-50/55 dark:bg-rose-950/20 border border-slate-200/85 dark:border-rose-950/60 hover:bg-rose-100/60 dark:hover:bg-rose-900/10 text-rose-600 dark:text-rose-450 hover:text-rose-700 transition-all cursor-pointer flex-1 py-3"
+            >
+              {lang === 'zh' ? '清除数据' : 'Clear'}
+            </button>
           )}
-        </button>
+
+          <button
+            type="submit"
+            id="btn-fetch-generate"
+            disabled={loading || !parsedInfo}
+            className={`flex items-center justify-center gap-2 rounded-xl py-3 px-4 text-xs font-bold tracking-wider transition-all focus:outline-hidden cursor-pointer
+              ${hasResults ? 'flex-[2]' : 'w-full'}
+              ${loading 
+                ? 'bg-slate-400 text-white cursor-not-allowed' 
+                : parsedInfo
+                  ? 'bg-slate-900 hover:bg-black text-white dark:bg-emerald-500 dark:text-slate-950 dark:hover:bg-emerald-400 dark:hover:text-black font-extrabold active:scale-[0.98] shadow-md dark:shadow-none'
+                  : 'bg-slate-200 dark:bg-slate-800/80 cursor-not-allowed text-slate-400 dark:text-slate-500'
+              }`}
+          >
+            {loading ? (
+              <>
+                <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                <span>{t.btnLoading}</span>
+              </>
+            ) : (
+              <span>{t.btnStart}</span>
+            )}
+          </button>
+        </div>
       </form>
     </div>
   );

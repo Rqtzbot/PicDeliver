@@ -9,9 +9,9 @@ export const CDN_NODES: CDNNode[] = [
   {
     id: 'gcore',
     name: 'Gcore 专属',
-    description: '由 Gcore 全球网络加速，亚太和欧洲极佳',
+    description: '由 Gcore 全球网络加速，亚太极佳',
     prefix: 'https://gcore.jsdelivr.net/gh',
-    speedTag: '极速推荐',
+    speedTag: '国内推荐',
     latencyIndicator: 'fast',
   },
   {
@@ -27,7 +27,7 @@ export const CDN_NODES: CDNNode[] = [
     name: 'jsDelivr 原版',
     description: '官方正式主线路，国际纯正 CDN，稳定度高',
     prefix: 'https://cdn.jsdelivr.net/gh',
-    speedTag: '稳定通用',
+    speedTag: '全球友好',
     latencyIndicator: 'medium',
   },
   {

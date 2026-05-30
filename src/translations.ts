@@ -89,6 +89,7 @@ export const translations = {
     fetchRepoError: 'GitHub repository not found. If this is a private repository, provide a personal access token.',
     fetchFolderError: 'Target folder path was not found in selected branch.',
     copiedIndividualDone: 'Copied Link!',
+    footerText: '© 2026 GitHub CDN Converter Core System. Powered by jsDelivr global edge routes. | Created by Daqi loorays with AI tools',
   },
   zh: {
     title: 'PicDeliver',
@@ -97,7 +98,7 @@ export const translations = {
     jsdelivrCore: 'jsDelivr 核心',
     configTitle: 'GitHub 存储仓库',
     clearResults: '清空当前结果',
-    folderLabel: 'GitHub 文件夹地址或仓库路径',
+    folderLabel: 'GitHub 图片文件夹地址',
     folderPlaceholder: '例如: https://github.com/Rqtzbot/looraysImage/tree/main/img',
     validationError: '请输入合法的 GitHub 文件夹地址或所有者/仓库路径',
     parsingSuccess: '仓库解析校验通过',
@@ -128,7 +129,7 @@ export const translations = {
     syncing: '拉取数据中',
     synced: '转换加速就绪',
     quotaLabel: 'API 可用剩余额度:',
-    quotaWarning: '额度紧张，建议在高级选项中配置 Token 加速，以防解析中断。',
+    quotaWarning: '额度紧张，使用GitHub API建议在高级选项中配置 Token 加速，以防解析中断。',
     quotaRateTitle: 'GitHub API 访问额度已超限',
     quotaRateDesc: 'GitHub API 对匿名公共 IP 的每小时请求做了 60 次的硬限制。由于本工具运行在云端共享公网 IP 下，该出口额度已经被共用耗尽。',
     quotaRateCardLabel: '立即填入 GitHub Token 完全解决限制：',
@@ -173,5 +174,6 @@ export const translations = {
     fetchRepoError: '未找到该 GitHub 仓库，请检查拼写是否正确。如果是私有库请在高级选项填入个人 Token。',
     fetchFolderError: '在指定分支下找不到对应文件夹路径。请检查分支和文件夹名称是否一致。',
     copiedIndividualDone: '链接已成功复制！',
+    footerText: '© 2026 GitHub CDN Converter Core System. Powered by jsDelivr global edge routes. | 由大奇loorays结合AI工具制作，理性使用，仅供学习，严禁滥用！',
   },
 };

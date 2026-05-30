@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Github, Globe } from 'lucide-react';
+import { Github, Globe, Sun, Moon } from 'lucide-react';
 import { Language } from '../translations';
 
 interface HeaderProps {
@@ -14,18 +14,18 @@ interface HeaderProps {
 
 export default function Header({ lang, onLanguageChange }: HeaderProps) {
   return (
-    <header className="border-b border-slate-100 bg-white/95 backdrop-blur-md sticky top-0 z-50 py-3.5 px-4 sm:px-6 lg:px-8">
+    <header className="border-b border-slate-100 dark:border-slate-800/80 bg-white/95 dark:bg-[#090D16]/95 backdrop-blur-md sticky top-0 z-50 py-3.5 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="mx-auto max-w-7xl flex items-center justify-between gap-4">
         {/* Left Side Branding */}
         <div className="flex items-center gap-3">
           <div className="relative flex items-center">
-            <span className="h-5 w-1 bg-slate-800 rounded-full mr-2" />
-            <h1 className="font-sans text-lg font-extrabold tracking-tight text-slate-900">
-              Pic<span className="text-slate-800">Deliver</span>
+            <span className="h-5 w-1 bg-slate-800 dark:bg-emerald-500 rounded-full mr-2" />
+            <h1 className="font-sans text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">
+              Pic<span className="text-slate-800 dark:text-slate-300">Deliver</span>
             </h1>
           </div>
-          <span className="h-4 w-[1px] bg-slate-200 hidden md:block" />
-          <p className="text-[11px] text-slate-450 font-medium hidden md:block">
+          <span className="h-4 w-[1px] bg-slate-200 dark:bg-slate-800 hidden md:block" />
+          <p className="text-[11px] text-slate-450 dark:text-slate-400 font-medium hidden md:block">
             {lang === 'zh'
               ? '一键转换 GitHub 仓库中的图片为高速、稳定的多节点 CDN 静态图床外链'
               : 'Convert the images of GitHub repositories into high-availability global CDN static links'}
@@ -33,35 +33,35 @@ export default function Header({ lang, onLanguageChange }: HeaderProps) {
         </div>
 
         {/* Right Side: Language Switcher and Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 md:gap-4.5">
           <a
             href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-slate-400 hover:text-slate-700 transition-colors"
+            className="text-slate-500 dark:text-slate-400 hover:text-slate-850 dark:hover:text-slate-200 transition-colors"
             title="GitHub"
           >
-            <Github className="h-5 w-5" />
+            <Github className="h-4.5 w-4.5" />
           </a>
 
           {/* Custom micro pill language toggler */}
-          <div className="flex items-center bg-slate-100 p-0.5 rounded-xl border border-slate-200">
+          <div className="flex items-center bg-slate-150/40 dark:bg-slate-800/80 p-0.5 rounded-xl border border-slate-200/60 dark:border-slate-700">
             <button
               onClick={() => onLanguageChange('zh')}
-              className={`px-2.5 py-1 text-[10px] font-bold rounded-lg transition-all cursor-pointer ${
+              className={`px-2 py-0.5 text-[10px] font-bold rounded-lg transition-all cursor-pointer ${
                 lang === 'zh'
-                  ? 'bg-white text-slate-800 shadow-xs ring-1 ring-slate-150/40'
-                  : 'text-slate-400 hover:text-slate-700'
+                  ? 'bg-[#e8e8e8] dark:bg-slate-700 text-slate-800 dark:text-white shadow-xs'
+                  : 'text-slate-450 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-205'
               }`}
             >
               中文
             </button>
             <button
               onClick={() => onLanguageChange('en')}
-              className={`px-2.5 py-1 text-[10px] font-bold rounded-lg transition-all cursor-pointer ${
+              className={`px-2 py-0.5 text-[10px] font-bold rounded-lg transition-all cursor-pointer ${
                 lang === 'en'
-                  ? 'bg-white text-slate-800 shadow-xs ring-1 ring-slate-150/40'
-                  : 'text-slate-400 hover:text-slate-700'
+                  ? 'bg-[#eeeeee] dark:bg-slate-700 text-slate-800 dark:text-white shadow-xs'
+                  : 'text-slate-450 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-205'
               }`}
             >
               EN
