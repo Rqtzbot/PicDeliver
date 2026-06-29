@@ -35,7 +35,7 @@ export default function Header({ lang, onLanguageChange }: HeaderProps) {
         {/* Right Side: Language Switcher and Actions */}
         <div className="flex items-center gap-3 md:gap-4.5">
           <a
-            href="https://github.com/Rqtzbot/PicDeliver"
+            href="https://github.com/loorays/PicDeliver"
             target="_blank"
             rel="noopener noreferrer"
             className="text-slate-500 dark:text-slate-400 hover:text-slate-850 dark:hover:text-slate-200 transition-colors"
